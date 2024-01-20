@@ -227,6 +227,11 @@ int main()
     // std::cout << m << "\n";
     // m += -1234;
     // std::cout << m << "\n";
+    
+    number_theory::Modulo m1(1e9 + 7);
+    // m1 += 1000000;
+    // m1 *= 100;
+    std::cin >> m1;
 
     unsigned long long x;
     std::cin >> x;
