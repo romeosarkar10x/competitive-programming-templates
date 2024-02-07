@@ -232,14 +232,18 @@ int main()
   std::cout << "i: " << i << "\n";
   std::cout << "i2: " << i2 << "\n";
 
-  std::cout << "i && i2: " << (i && i2) << "\n"; // union
-  std::cout << "i || i2: " << (i || i2) << "\n"; // intersection
+  std::cout << "i || i2: " << (i || i2) << "\n"; // union
+  std::cout << "i && i2: " << (i && i2) << "\n"; // intersection
 
-  std::cout << "i.slide(3): " << (i.slide(3)) << "\n"; // slide
+  std::cout << "i.slide(3): " << (i.slide(-3)) << "\n"; // slide
   std::cout << "i2.extend(2): " << (i2.extend(2)) << "\n"; // extend
+
+  // i.slide(2).extend(3).extend_left(3);
 
   std::cout << "i: " << i << "\n";
   std::cout << "i2: " << i2 << "\n";
+
+  std::cout << i - 2 << "\n";
 
   return 0;
 }
