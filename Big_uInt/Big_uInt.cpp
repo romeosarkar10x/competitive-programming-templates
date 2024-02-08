@@ -57,47 +57,64 @@ public:
 
   ~Big_uInt()
   {
-    delete [] _m_p;
+    delete [] _m_buffer;
     
     _m_size = 0;
-    _m_p = nullptr;
+    _m_buffer = nullptr;
   }
 private:
 
-  u_short _m_size { 1u };
+  u_int _m_size { 1u };
   u_char _m_capacity__pow_2 { 0u }; // _m_capacity is always a power of 2
 
-  u_ll* _m_p;
+  u_ll* _m_buffer;
   // union __U
   // {
   //   u_ll _m_u;
   // } _m_d;
 
+  void _m_grow(u_int _amount)
+  {
+    u_char expected_cap = _m_capacity__pow_2;
+    while(_m_size + _amount > (1u << expected_cap)) { expected_cap++; }
 
-  // Big_uInt() : _m_size(1u), _m_capacity__pow_2(0u) {}
+    if(expected_cap > _m_capacity__pow_2)
+    {
+      _m_realloc(expected_cap);
+    }
+    else { _m_size += _amount; }
+  }
+  void _m_shrink(u_int _amount)
+  {
+    // if(_m_size - _amount)
+  }
+  void _m_realloc(u_char _cap__pow_2)
+  {
+    u_ll* buf = new u_ll [(1u << _cap__pow_2)];
+
+    for(u_int u = 0u; u < (1u << _m_capacity__pow_2); u++)
+    {
+      buf[u] = _m_buffer[u];
+    }
+
+    for(u_int u = _m_capacity__pow_2; u < (1u << _cap__pow_2); u++)
+    {
+      buf[u] = 0ull;
+    }
+
+    delete [] _m_buffer;
+    _m_buffer = buf;
+  }
 
   void _m_add(const Big_uInt& rhs);
+  void _m_mul(const Big_uInt& rhs);
 
 public:
   // dest: lhs, (lhs >= rhs), lhs has extra space to fit the carry!
-  static void _m_asm_add(u_ll* lhs, u_ll* rhs, u_short size__rhs)
-  {
-    asm(
-      "movq %0, %%r10\n\t"
-      "movq %1, %%r11\n\t"
-      "mov  %2, %%cx\n\t"
-      "dec %%cx\n\t"
-      "jz LABEL_EXIT\n"
-      "LABEL_EXIT:\n\t"
-      
-      :
-      : "r"(lhs), "r"(rhs), "r"(size__rhs)
-      : "%r10", "%r11", "%cx"
-    );
-  }
-  static void _m_asm_sub() {}
-  static void _m_asm_mul() {}
-  static void _m_asm_div() {}
+  static void _m_asm_add(u_ll* lhs, u_ll* rhs, u_short size__rhs);
+  static void _m_asm_sub();
+  static void _m_asm_mul();
+  static void _m_asm_div();
   
 };
 

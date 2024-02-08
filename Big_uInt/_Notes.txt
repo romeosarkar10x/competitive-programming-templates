@@ -1,0 +1,1 @@
+Improper Inline Assembly :: No need to manually allocate registers. The compiler can do it for you.

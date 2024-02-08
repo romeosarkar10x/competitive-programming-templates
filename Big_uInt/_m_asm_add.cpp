@@ -10,7 +10,7 @@ static void _m_asm_add(u_ll* lhs, u_ll* rhs, u_ll size)
     "mov  %2, %%rcx\n\t"
     "mov  $1, %%al\n" // carry: al
 
-    "LOOP:\n\t"
+    ".LOOP0:\n\t"
     "cmpb $1, %%al\n\t" // restore carry
     "movq (%%r9), %%rdx\n\t"
     "adcq %%rdx, (%%r8)\n\t" // add to lhs
@@ -19,7 +19,7 @@ static void _m_asm_add(u_ll* lhs, u_ll* rhs, u_ll size)
     "addq $8, %%r8\n\t"
     "addq $8, %%r9\n\t"
     "dec  %%rcx\n\t"
-    "jnz  LOOP\n"
+    "jnz  .LOOP0\n"
     
     :
     : "g"(lhs), "g"(rhs), "g"(size)
