@@ -15,7 +15,7 @@ public:
 
 
 
-  Big_uInt(const Big_uInt& __u) : _m_size(__u._m_size), _m_capacity__pow_2(__u._m_capacity__pow_2), _m_buffer(new u_ll [_m_size])
+  Big_uInt(const Big_uInt& __u) : _m_size(__u._m_size), _m_capacity__pow_2(__u._m_capacity__pow_2), _m_buffer(new u_ll [1 << _m_capacity__pow_2])
   {
     for(u_int u = 0u; u < (1u << _m_capacity__pow_2); u++) { _m_buffer[u] = __u._m_buffer[u]; }
   }
@@ -89,7 +89,8 @@ public:
   std::string to_string__decimal()
   {
     std::string s;
-    while(*this != 0u) { s += static_cast<char>(_m_div__u_ll(10ull)) + '0'; }
+    Big_uInt u(*this);
+    while(u != 0u) { s += static_cast<char>(u._m_div__u_ll(10ull)) + '0'; }
     std::reverse(s.begin(), s.end());
     return s;
   }
@@ -139,6 +140,7 @@ private:
     {
       _m_realloc(_final_cap__pow_2);
     }
+    _m_capacity__pow_2 = _final_cap__pow_2;
   }
   
   void _m_realloc(u_char _cap__pow_2)
@@ -150,7 +152,7 @@ private:
       buf[u] = _m_buffer[u];
     }
 
-    for(u_int u = _m_capacity__pow_2; u < (1u << _cap__pow_2); u++)
+    for(u_int u = (1u << _m_capacity__pow_2); u < (1u << _cap__pow_2); u++)
     {
       buf[u] = 0ull;
     }
@@ -193,10 +195,11 @@ private:
     u_int final_size = _m_size + rhs._m_size - 1u;
     
     u_ll* tmp = new u_ll [final_size];
+
     product._m_increase_size__absolute(final_size);
 
     __asm__mul(_m_buffer, rhs._m_buffer, _m_size - 1u, rhs._m_size - 1u, tmp, product._m_buffer);
-
+    
     product._m_trim();
     
     delete [] tmp;
