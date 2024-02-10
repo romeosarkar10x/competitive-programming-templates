@@ -1,7 +1,8 @@
 #include <iostream>
-#include "_global_def.hpp"
+#include "global.hpp"
+
 // size = lhs_size;
-static void _m_asm_div__ll(u_ll* lhs, u_ll rhs, u_ll size, u_ll* quot, u_ll* rem)
+static void __asm__div__u_ll(u_ll* lhs, u_ll rhs, u_ll size, u_ll* quot, u_ll* rem)
 {
   asm(
     "movq %[lhs], %%r8\n\t"   //  r8: lhs
@@ -61,13 +62,14 @@ static void _m_asm_div__ll(u_ll* lhs, u_ll rhs, u_ll size, u_ll* quot, u_ll* rem
   );
 }
 
+/*
 
 int main()
 {
   u_ll a[] = { 73, 1, 1, 4, 16, 0 }, b = (1ull << 62), size = 6;
   u_ll quot[6] = { 24, 49, 122, 9, 88, 0 }, rem = 998877;
 
-  _m_asm_div__ll(a, b, size - 1, quot, &rem);
+  __asm__div__u_ll(a, b, size - 1, quot, &rem);
 
   for(u_ll u = 0; u < size; u++)
   {
@@ -75,10 +77,12 @@ int main()
   }
   std::cout << "\n" << rem << "\n";
 
-  /* 
-    Expected Output:
-      4 4 16 64 0 0 
-      73
-  */
+  
+    // Expected Output:
+    //   4 4 16 64 0 0 
+    //   73
+  
   return 0;
 }
+
+*/

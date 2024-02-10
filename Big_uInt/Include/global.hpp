@@ -1,5 +1,5 @@
-#ifndef GLOBAL_DEF
-#define GLOBAL_DEF
+#ifndef GLOBAL_HPP
+#define GLOBAL_HPP
 
 using ll = long long;
 using u_short = unsigned short;
